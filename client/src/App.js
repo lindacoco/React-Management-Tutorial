@@ -10,6 +10,13 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import {
+  CircularProgressbar,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
+// Animation
+import ChangingProgressProvider from "./components/ChangingProgressProvider";
 
 const styles = theme =>( {
     root: {
@@ -19,20 +26,28 @@ const styles = theme =>( {
     },
     table: {
       minWidth: 1080
+    },
+    progress:{
+      margin: theme.spacing.unit *2,
+      width: '5%'
     }
 
 })
 
+
 class App extends Component {
     //접속 후 고객의 요청에 따라 
     state = {
-     customers:""
+     customers:"",
+     progress: 0
     }
+
+   
     //api에 접근해서 데이터를 가져오는 것은 componentDidMount에서 가능
     componentDidMount(){
       this.callApi()
-       .then(res => this.setState({customers : res}))
-       .catch(err => console.log(err));
+      //  .then(res => this.setState({customers : res}))
+      //  .catch(err => console.log(err));
     }
 
     callApi = async () => {
@@ -75,7 +90,16 @@ class App extends Component {
                 job={c.job}  
               />
             )
-          }): "" }
+          }): 
+          <TableRow>
+            <TableCell colSpan="6" align="center">
+              <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]} >
+                  {percentage => (
+                  <CircularProgressbar value={percentage} text={`${percentage}%`} className={classes.progress} />
+                  )}
+              </ChangingProgressProvider>
+            </TableCell>
+          </TableRow> }
           </TableBody>
         </Table>
         
@@ -92,7 +116,6 @@ class App extends Component {
       </Paper>
     );
   }
-}
+} 
 
 export default withStyles(styles)(App); 
-
