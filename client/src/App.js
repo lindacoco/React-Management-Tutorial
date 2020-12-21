@@ -23,32 +23,25 @@ const styles = theme =>( {
 
 })
 
-const customers = [{
-  'id':1, 
-  'image':'http://placeimg.com/64/64/any',
-  'name': 'jamie', 
-  'birthday':'930221', 
-  'gender':'femail',
-  'job':'student'
-},
-{
-'id':2, 
-  'image':'http://placeimg.com/64/64/any',
-  'name': 'rara', 
-  'birthday':'990221', 
-  'gender':'femail',
-  'job':'student'
-},
-{
-  'id':3, 
-  'image':'http://placeimg.com/64/64/any',
-  'name': 'roy', 
-  'birthday':'950221', 
-  'gender':'mail',
-  'job':'student'
-}];
-
 class App extends Component {
+    //접속 후 고객의 요청에 따라 
+    state = {
+     customers:""
+    }
+    //api에 접근해서 데이터를 가져오는 것은 componentDidMount에서 가능
+    componentDidMount(){
+      this.callApi()
+       .then(res => this.setState({customers : res}))
+       .catch(err => console.log(err));
+    }
+
+    callApi = async () => {
+      const response = await fetch('api/customers'); //우리 시험용, 실제로는 주소 사용 
+      const body = await response.json(); //json형태로 바디에 담아준다. 
+      return body;
+    }
+   
+
   render() {
 
     const {classes} = this.props;
@@ -70,7 +63,7 @@ class App extends Component {
           </TableHead>            
           <TableBody>
           {
-          customers.map(c => {
+           this.state.customers? this.state.customers.map(c => {
             return (
               <Customer
                 key = {c.id}
@@ -82,8 +75,7 @@ class App extends Component {
                 job={c.job}  
               />
             )
-          })
-        }
+          }): "" }
           </TableBody>
         </Table>
         
