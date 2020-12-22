@@ -46,8 +46,8 @@ class App extends Component {
     //api에 접근해서 데이터를 가져오는 것은 componentDidMount에서 가능
     componentDidMount(){
       this.callApi()
-      //  .then(res => this.setState({customers : res}))
-      //  .catch(err => console.log(err));
+       .then(res => this.setState({customers : res}))
+       .catch(err => console.log(err));
     }
 
     callApi = async () => {
