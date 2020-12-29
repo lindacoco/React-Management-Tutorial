@@ -3,6 +3,7 @@ import './App.css';
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import Customer from './components/Customer'; 
+import CustomerAdd from './components/CustomerAdd'; 
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -62,58 +63,61 @@ class App extends Component {
     const {classes} = this.props;
 
     return (
-      <Paper className={classes.root}>
-        {/*}<img src={logo} lat="logo" /> */}
-        <h2>management system</h2>
-        <Table className={classes.table}>
-          <TableHead> 
+      <div>
+        <Paper className={classes.root}>
+          {/*}<img src={logo} lat="logo" /> */}
+          <h2>management system</h2>
+          <Table className={classes.table}>
+            <TableHead> 
+              <TableRow>
+                <TableCell>id</TableCell>
+                <TableCell>img</TableCell>
+                <TableCell>name</TableCell>
+                <TableCell>birthday</TableCell>
+                <TableCell>gender</TableCell>
+                <TableCell>job</TableCell>
+              </TableRow>
+            </TableHead>            
+            <TableBody>
+            {
+            this.state.customers? this.state.customers.map(c => {
+              return (
+                <Customer
+                  key = {c.id}
+                  id= {c.id} 
+                  image ={c.image} 
+                  name={c.name} 
+                  birthday={c.birthday} 
+                  gender={c.gender} 
+                  job={c.job}  
+                />
+              )
+            }): 
             <TableRow>
-              <TableCell>id</TableCell>
-              <TableCell>img</TableCell>
-              <TableCell>name</TableCell>
-              <TableCell>birthday</TableCell>
-              <TableCell>gender</TableCell>
-              <TableCell>job</TableCell>
-            </TableRow>
-          </TableHead>            
-          <TableBody>
-          {
-           this.state.customers? this.state.customers.map(c => {
-            return (
-              <Customer
-                key = {c.id}
-                id= {c.id} 
-                image ={c.image} 
-                name={c.name} 
-                birthday={c.birthday} 
-                gender={c.gender} 
-                job={c.job}  
-              />
-            )
-          }): 
-          <TableRow>
-            <TableCell colSpan="6" align="center">
-              <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]} >
-                  {percentage => (
-                  <CircularProgressbar value={percentage} text={`${percentage}%`} className={classes.progress} />
-                  )}
-              </ChangingProgressProvider>
-            </TableCell>
-          </TableRow> }
-          </TableBody>
-        </Table>
-        
-         {/* <Customer 
-          id= {customers.id} 
-          image ={customers.image} 
-          name={customers.name} 
-          birthday={customers.birthday} 
-          gender={customers.gender} 
-          job={customers.job} 
+              <TableCell colSpan="6" align="center">
+                <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]} >
+                    {percentage => (
+                    <CircularProgressbar value={percentage} text={`${percentage}%`} className={classes.progress} />
+                    )}
+                </ChangingProgressProvider>
+              </TableCell>
+            </TableRow> }
+            </TableBody>
+          </Table>
           
-          /> */}
-          
-      </Paper>
+          {/* <Customer 
+            id= {customers.id} 
+            image ={customers.image} 
+            name={customers.name} 
+            birthday={customers.birthday} 
+            gender={customers.gender} 
+            job={customers.job} 
+            
+            /> */}
+            
+        </Paper>
+        <CustomerAdd/>
+      </div>
     );
   }
 } 
